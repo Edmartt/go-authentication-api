@@ -43,8 +43,8 @@ func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
 
 			newToken := claims.GenerateJWT(user.Username, 5)
 
-			w.WriteHeader(http.StatusOK)
 			json.NewEncoder(w).Encode(newToken)
+			w.WriteHeader(http.StatusOK)
 			return
 		}
 

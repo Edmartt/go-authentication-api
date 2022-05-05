@@ -5,7 +5,7 @@ import (
 	"io"
 	"log"
 
-	"github.com/Edmartt/go-authentication-api/internal/database"
+	//"github.com/Edmartt/go-authentication-api/internal/database"
 	"github.com/Edmartt/go-authentication-api/internal/users/data"
 	"github.com/Edmartt/go-authentication-api/internal/users/models"
 	"github.com/Edmartt/go-authentication-api/pkg/jwt"
@@ -24,8 +24,6 @@ type Handlers struct {
 
 func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
 	reqBody, requestError := io.ReadAll(request.Body)
-	h.userRepo.GormObject = database.SQLite{}
-
 
 	if requestError != nil{
 		log.Println(requestError.Error())

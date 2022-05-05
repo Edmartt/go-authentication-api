@@ -49,10 +49,12 @@ curl -i -X POST -H "Content-Type: application/json" -d '{"username":"shinigami",
 
 This is my response:
 
-```HTTP/1.1 201 Created
+```
+HTTP/1.1 201 Created
 Content-Type: application/json
 Date: Thu, 05 May 2022 11:33:46 GMT
-Content-Length: 0```
+Content-Length: 0
+```
 
 Once the user is created you can sign in:
 

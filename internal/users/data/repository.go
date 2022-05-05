@@ -7,7 +7,7 @@ import (
 )
 
 type UserRepository struct{
-	GormObject database.Postgres
+	GormObject database.SQLite
 	user models.User
 }
 

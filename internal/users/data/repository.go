@@ -7,7 +7,7 @@ import (
 )
 
 type UserRepository struct{
-	GormObject database.SQLite
+	GormObject database.IConnection
 	user models.User
 }
 

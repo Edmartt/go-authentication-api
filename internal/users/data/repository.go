@@ -7,12 +7,20 @@ import (
 )
 
 type UserRepository struct{
-	GormObject database.IConnection
+	DB database.IConnection
 	user models.User
 }
 
+
+func NewRepository() *UserRepository{
+	db := UserRepository{} 
+	db.DB = database.Postgres{}
+	return &UserRepository{DB: db.DB} 
+}
+
+
 func (data UserRepository) Find(username string) (*models.User){
-	connection, connError := data.GormObject.GetConnection()
+	connection, connError := NewRepository().DB.GetConnection()
 	if connError != nil{
 		log.Println("connection error")
 	}
@@ -27,7 +35,7 @@ func (data UserRepository) Find(username string) (*models.User){
 }
 
 func (data UserRepository) Create(user models.User){
-	connection, connError := data.GormObject.GetConnection()
+	connection, connError := NewRepository().DB.GetConnection()
 	if connError != nil{
 		log.Println("connection error")
 	}
@@ -35,7 +43,7 @@ func (data UserRepository) Create(user models.User){
 }
 
 func (data UserRepository) Update(user models.User){
-	connection, connError := data.GormObject.GetConnection()
+	connection, connError := data.DB.GetConnection()
 
 	if connError != nil{
 		log.Println("connection error")
@@ -44,7 +52,7 @@ func (data UserRepository) Update(user models.User){
 }
 
 func (data UserRepository) Delete(user models.User, id string){
-	connection, connError := data.GormObject.GetConnection()
+	connection, connError := data.DB.GetConnection()
 
 	if connError != nil{
 		log.Println("connection error")

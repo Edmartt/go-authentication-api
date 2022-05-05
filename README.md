@@ -68,6 +68,7 @@ This is my response:
 HTTP/1.1 200 OK
 Content-Type: application/json
 Date: Thu, 05 May 2022 11:36:33 GMT
-Content-Length: 140```
+Content-Length: 140
 
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTE3NTA4OTMsIkF0dHJpYnV0ZSI6InNoaW5pZ2FtaSJ9.njMWOvu6PBusDZt9k9lyfIRGRBvCo61Mm_jg6xhFPL0"
+```

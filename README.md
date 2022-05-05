@@ -9,7 +9,7 @@ A simple authentication API.
 
 ## Running Locally
 
-- ```
+```
 git clone https://github.com/Edmartt/go-authentication-api
 ```
 
@@ -17,19 +17,19 @@ git clone https://github.com/Edmartt/go-authentication-api
 or ssh instead:
 
 
-- ```
+```
 git@github.com:Edmart/go-authentication-api
 ```
 
-```
 
+```
 cd go-authentication-api
 ```
 
-```go mod tidy```
-
+```go mod tidy
 ```
-go run main.go
+
+```go run main.go
 ```
 
 

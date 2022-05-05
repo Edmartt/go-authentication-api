@@ -17,7 +17,7 @@ func main(){
 		log.Fatal("Failed loading .env file")
 	}
 
-	migration := database.Migrations{DB: database.Postgres{}}
+	migration := database.Migrations{DB: database.SQLite{}}
 	migration.MakeMigrations()
 
 	server := server.HttpServer{}

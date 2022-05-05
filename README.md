@@ -64,7 +64,8 @@ curl -i -X POST -H "Content-Type: application/json" -d '{"username":"shinigami",
 
 This is my response:
 
-```HTTP/1.1 200 OK
+```
+HTTP/1.1 200 OK
 Content-Type: application/json
 Date: Thu, 05 May 2022 11:36:33 GMT
 Content-Length: 140```

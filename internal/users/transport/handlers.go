@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 
+	"github.com/Edmartt/go-authentication-api/internal/database"
 	"github.com/Edmartt/go-authentication-api/internal/users/data"
 	"github.com/Edmartt/go-authentication-api/internal/users/models"
 	"github.com/Edmartt/go-authentication-api/pkg/jwt"
@@ -23,6 +24,7 @@ type Handlers struct {
 
 func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
 	reqBody, requestError := io.ReadAll(request.Body)
+	h.userRepo.GormObject = database.SQLite{}
 
 
 	if requestError != nil{
@@ -43,8 +45,8 @@ func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
 
 			newToken := claims.GenerateJWT(user.Username, 5)
 
-			json.NewEncoder(w).Encode(newToken)
 			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(newToken)
 			return
 		}
 

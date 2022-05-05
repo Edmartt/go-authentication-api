@@ -39,7 +39,7 @@ go run main.go
 
 **Note**
 
-This is actually set for using with SQLite for simplicity, but you can switch this database manager for postgres if needed. Just go to internal/users/data/repository.go and change the line 10 typing **Postgres**
+This is actually set for using with SQLite for simplicity, but you can switch this database manager for postgres if needed. Just go to internal/users/data/repository.go and change the line 10 typing **Postgres**. If you use postgres, remember to set the .env.example values according to your setup. Note that I left the `:` as part of HTTP_PORT env var value, so if you need to change this port just delete the numbers.
 
 You can use any client you want. I'm using curl:
 

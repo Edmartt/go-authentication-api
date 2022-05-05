@@ -26,10 +26,12 @@ git@github.com:Edmart/go-authentication-api
 cd go-authentication-api
 ```
 
-```go mod tidy
+```
+go mod tidy
 ```
 
-```go run main.go
+```
+go run main.go
 ```
 
 

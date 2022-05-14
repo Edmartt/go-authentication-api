@@ -33,6 +33,6 @@ func (server *HttpServer) SetRoutes(){
 
 	server.Router.HandleFunc("/api/v1/public/signup",transport.SetJSONResponse(transport.ValidateRequestBody(server.handlers.Signup))).Methods("POST")
 
-	server.Router.HandleFunc("/api/v1/users/signup",transport.SetJSONResponse(transport.ValidateRequestBody(server.handlers.Signup))).Methods("POST")
+	server.Router.HandleFunc("/api/v1/private/users/user", transport.SetJSONResponse(transport.IsAuthorized(server.handlers.GetUserData))).Methods("GET")
 
 }

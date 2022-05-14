@@ -28,7 +28,34 @@ func (cl Claims)GenerateJWT(attribute string, quantity time.Duration) string{
 	tokenString, tokenError := token.SignedString([]byte(jwtSecret))
 
 	if tokenError != nil{
-		log.Println(tokenError)
+		return
+	}
+
+	return 
+}
+
+func (wrap *JWTWrapper) ValidateToken(signedToken string) (claims *Claims, jwtError error){
+	token, err := jwt.ParseWithClaims(
+		signedToken,
+		&Claims{},
+		func(t *jwt.Token) (interface{}, error) {
+			return []byte(wrap.SecretKey), nil
+		},
+	)
+
+	if err != nil{
+		return nil, err
+	}
+
+	claims, ok := token.Claims.(*Claims)
+
+	if !ok{
+		err = errors.New("couln't parse with claims")
+	}
+
+	if claims.ExpiresAt < time.Now().Local().Unix(){
+		err = errors.New("JWT expired")
+		return
 	}
 
 	return tokenString

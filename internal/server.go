@@ -3,9 +3,10 @@ package server
 import (
 	"fmt"
 
-	"github.com/Edmartt/go-authentication-api/internal/users/transport"
 	"log"
 	"net/http"
+
+	"github.com/Edmartt/go-authentication-api/internal/users/transport"
 
 	"github.com/gorilla/mux"
 )
@@ -28,7 +29,9 @@ func (server *HttpServer) StartServer(port string){
 
 func (server *HttpServer) SetRoutes(){
 
-	server.Router.HandleFunc("/api/v1/users/login", transport.SetJSONResponse(server.handlers.Login)).Methods("POST")
+	server.Router.HandleFunc("/api/v1/public/login", transport.SetJSONResponse(server.handlers.Login)).Methods("POST")
+
+	server.Router.HandleFunc("/api/v1/public/signup",transport.SetJSONResponse(transport.ValidateRequestBody(server.handlers.Signup))).Methods("POST")
 
 	server.Router.HandleFunc("/api/v1/users/signup",transport.SetJSONResponse(transport.ValidateRequestBody(server.handlers.Signup))).Methods("POST")
 

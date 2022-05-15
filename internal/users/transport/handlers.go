@@ -77,5 +77,24 @@ func (h *Handlers)Signup(w http.ResponseWriter, request *http.Request){
 
 	h.userRepo.Create(user)
 	w.WriteHeader(http.StatusCreated)
+	h.sigResponse.Status = "User Created"
+	json.NewEncoder(w).Encode(h.sigResponse)
+	return
+}
+
+func (h *Handlers)GetUserData(w http.ResponseWriter, request *http.Request){
+
+	uName := request.Context().Value("username") // value from mux context took from ValidateToken middleware
+
+	data := h.userRepo.Find(string(fmt.Sprint(uName)))
+
+	h.user.Id = data.Id
+	h.user.Username = data.Username
+	h.user.Password = data.Password
+	h.user.CreatedAt = data.CreatedAt
+	
+	data.Password = ""
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(&data)
 	return
 }

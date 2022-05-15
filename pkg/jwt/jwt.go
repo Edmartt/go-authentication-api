@@ -1,8 +1,7 @@
 package jwt
 
 import (
-	"log"
-	"os"
+	"errors"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -13,20 +12,24 @@ type Claims struct{
 	Attribute string
 }
 
-func (cl Claims)GenerateJWT(attribute string, quantity time.Duration) string{
+type JWTWrapper struct{
+	SecretKey string
+}
+
+func (wrap *JWTWrapper)GenerateJWT(attribute string, quantity time.Duration) (tokenString string, err error){
 	expirationTime := time.Now().Add(quantity * time.Minute)
 
 	claims := &Claims{
 		Attribute: attribute,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
+			Issuer: "Sam Sepiol",
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	jwtSecret := os.Getenv("JWT_SECRET")
 
-	tokenString, tokenError := token.SignedString([]byte(jwtSecret))
-
+	secretKeyBytes := []byte(wrap.SecretKey)
+	tokenString, tokenError := token.SignedString(secretKeyBytes)
 	if tokenError != nil{
 		return
 	}
@@ -58,5 +61,5 @@ func (wrap *JWTWrapper) ValidateToken(signedToken string) (claims *Claims, jwtEr
 		return
 	}
 
-	return tokenString
+	return claims, nil
 }

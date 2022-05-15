@@ -14,7 +14,7 @@ type UserRepository struct{
 
 func NewRepository() *UserRepository{
 	db := UserRepository{} 
-	db.DB = database.Postgres{}
+	db.DB = database.SQLite{}
 	return &UserRepository{DB: db.DB} 
 }
 

@@ -2,10 +2,10 @@ package transport
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 
-	//"github.com/Edmartt/go-authentication-api/internal/database"
 	"github.com/Edmartt/go-authentication-api/internal/users/data"
 	"github.com/Edmartt/go-authentication-api/internal/users/models"
 	"github.com/Edmartt/go-authentication-api/pkg/jwt"
@@ -18,10 +18,17 @@ import (
 )
 
 
+
+//Handler struct gives access to user data access layer
 type Handlers struct {
 	userRepo data.UserRepository
+	user models.User
+	logResponse LoginResponse
+	sigResponse SignupResponse
+
 }
 
+//Login endpoint
 func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
 	reqBody, requestError := io.ReadAll(request.Body)
 

@@ -24,7 +24,7 @@ func (server *HttpServer) SetServer(){
 
 func (server *HttpServer) StartServer(port string){
 	fmt.Println("Server Started in: ", port)
-	log.Fatal(http.ListenAndServe(port, server.Router))
+	log.Fatal(http.ListenAndServe(port, transport.LimitRequest(server.Router)))
 }
 
 func (server *HttpServer) SetRoutes(){

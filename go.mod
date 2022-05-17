@@ -27,4 +27,5 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.9 // indirect
 	golang.org/x/crypto v0.0.0-20220321153916-2c7772ba3064 // indirect
 	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
 )

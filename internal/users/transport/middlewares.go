@@ -10,6 +10,8 @@ import (
 	"net/http"
 	"strings"
 
+	"golang.org/x/time/rate"
+
 	"github.com/Edmartt/go-authentication-api/internal/users/models"
 	"github.com/Edmartt/go-authentication-api/pkg/jwt"
 )
@@ -88,4 +90,18 @@ func IsAuthorized(handler http.HandlerFunc) http.HandlerFunc{
 		ctx := context.WithValue(r.Context(), "username", claims.Attribute)
 		handler(w, r.WithContext(ctx))
 	}
+}
+
+
+
+func LimitRequest(next http.Handler) http.Handler{
+	limit := rate.NewLimiter(0.3, 3)
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		if limit.Allow() == false{
+			http.Error(w, http.StatusText(429), http.StatusTooManyRequests)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
 }

@@ -12,7 +12,7 @@ type UserRepository struct{
 }
 
 
-func NewRepository() *UserRepository{
+func NewRepository(){
 	db := UserRepository{} 
 	db.DB = database.SQLite{}
 	return &UserRepository{DB: db.DB} 

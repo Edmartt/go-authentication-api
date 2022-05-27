@@ -21,7 +21,7 @@ import (
 
 //Handler struct gives access to user data access layer
 type Handlers struct {
-	userRepo data.UserRepository
+	userRepo data.IUserRepository
 	user models.User
 	logResponse LoginResponse
 	sigResponse SignupResponse
@@ -69,7 +69,7 @@ func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
 	return
 }
 
-func (h *Handlers)Signup(w http.ResponseWriter, request *http.Request){
+func (h *Handlers)Signup(w http.ResponseWriter, request *http.Request) {
 
 	h.user.Id = uuid.NewString()
 	requestError := json.NewDecoder(request.Body).Decode(&h.user)

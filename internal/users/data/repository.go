@@ -12,15 +12,14 @@ type UserRepository struct{
 }
 
 
-func NewRepository() *UserRepository{
+func NewRepository(){
 	db := UserRepository{} 
 	db.DB = database.SQLite{}
-	return &UserRepository{DB: db.DB} 
 }
 
 
 func (data UserRepository) Find(username string) (*models.User){
-	connection, connError := NewRepository().DB.GetConnection()
+	connection, connError := data.DB.GetConnection()
 	if connError != nil{
 		log.Println("connection error")
 	}
@@ -34,12 +33,13 @@ func (data UserRepository) Find(username string) (*models.User){
 	return &data.user
 }
 
-func (data UserRepository) Create(user models.User){
-	connection, connError := NewRepository().DB.GetConnection()
+func (data UserRepository) Create(user models.User) string{
+	connection, connError := data.DB.GetConnection()
 	if connError != nil{
 		log.Println("connection error")
 	}
 	connection.Create(&user)
+	return user.Id
 }
 
 func (data UserRepository) Update(user models.User){

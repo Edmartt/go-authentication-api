@@ -21,7 +21,7 @@ func newRepository() database.IConnection{
 
 
 func (data UserRepository) Find(username string) (*models.User){
-	connection, connError := data.DB.GetConnection()
+	connection, connError := newRepository().GetConnection()
 	if connError != nil{
 		log.Println("connection error")
 	}
@@ -36,7 +36,7 @@ func (data UserRepository) Find(username string) (*models.User){
 }
 
 func (data UserRepository) Create(user models.User) string{
-	connection, connError := data.DB.GetConnection()
+	connection, connError := newRepository().GetConnection()
 	if connError != nil{
 		log.Println("connection error")
 	}

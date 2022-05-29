@@ -40,7 +40,7 @@ func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
 
 	json.Unmarshal(reqBody, &h.user)
 
-	searchedUser := h.userRepo.Find(h.user.Username)
+	searchedUser := data.RepoAccessInterface.Find(h.user.Username)
 
 
 	if searchedUser.Username == h.user.Username{
@@ -84,7 +84,7 @@ func (h *Handlers)Signup(w http.ResponseWriter, request *http.Request) {
 	}
 
 
-	h.userRepo.Create(h.user)
+	data.RepoAccessInterface.Create(h.user)
 	w.WriteHeader(http.StatusCreated)
 	h.sigResponse.Status = "User Created"
 	json.NewEncoder(w).Encode(h.sigResponse)
@@ -95,7 +95,7 @@ func (h *Handlers)GetUserData(w http.ResponseWriter, request *http.Request){
 
 	uName := request.Context().Value("username") // value from mux context took from ValidateToken middleware
 
-	data := h.userRepo.Find(string(fmt.Sprint(uName)))
+	data := data.RepoAccessInterface.Find(string(fmt.Sprint(uName)))
 
 	h.user.Id = data.Id
 	h.user.Username = data.Username

@@ -108,3 +108,10 @@ go test -v -coverprofile=coverage.out ./... ./...
 ```
 go tool cover -html=coverage.out
 ```
+
+## DEMO
+
+A demo application is deployed here:
+
+
+- [demo app](https://go-authentication-api.azurewebsites.net)

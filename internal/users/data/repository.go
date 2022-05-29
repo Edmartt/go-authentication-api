@@ -1,9 +1,9 @@
 package data
 
 import (
+	"log"
 	"github.com/Edmartt/go-authentication-api/internal/database"
 	"github.com/Edmartt/go-authentication-api/internal/users/models"
-	"log"
 )
 
 type UserRepository struct{
@@ -12,15 +12,16 @@ type UserRepository struct{
 }
 
 
-func NewRepository() *UserRepository{
-	db := UserRepository{} 
-	db.DB = database.Postgres{}
-	return &UserRepository{DB: db.DB} 
+func newRepository() database.IConnection{
+	db := UserRepository{
+		DB: database.SQLite{},
+	}
+	return db.DB
 }
 
 
 func (data UserRepository) Find(username string) (*models.User){
-	connection, connError := NewRepository().DB.GetConnection()
+	connection, connError := newRepository().GetConnection()
 	if connError != nil{
 		log.Println("connection error")
 	}
@@ -34,12 +35,13 @@ func (data UserRepository) Find(username string) (*models.User){
 	return &data.user
 }
 
-func (data UserRepository) Create(user models.User){
-	connection, connError := NewRepository().DB.GetConnection()
+func (data UserRepository) Create(user models.User) string{
+	connection, connError := newRepository().GetConnection()
 	if connError != nil{
 		log.Println("connection error")
 	}
 	connection.Create(&user)
+	return user.Id
 }
 
 func (data UserRepository) Update(user models.User){

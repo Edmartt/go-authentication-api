@@ -44,10 +44,10 @@ This is actually set for using with SQLite for simplicity, but you can switch th
 You can use any client you want. I'm using curl:
 
 ```
-curl -i -X POST -H "Content-Type: application/json" -d '{"username":"shinigami", "password":"12345678"}' http://localhost:8081/api/v1/users/signup
+curl -i -X POST -H "Content-Type: application/json" -d '{"username":"shinigami", "password":"12345678"}' http://<host>:<port>/api/v1/public/signup
 ```
 
-This is my response:
+#### Response:
 
 ```
 HTTP/1.1 201 Created
@@ -61,10 +61,10 @@ Content-Length: 26
 Once the user is created you can sign in:
 
 ```
-curl -i -X POST -H "Content-Type: application/json" -d '{"username":"shinigami", "password":"12345678"}' http://localhost:8081/api/v1/users/login
+curl -i -X POST -H "Content-Type: application/json" -d '{"username":"shinigami", "password":"12345678"}' http://<host>:<port>/api/v1/public/login
 ```
 
-This is my response:
+#### Response:
 
 ```
 HTTP/1.1 200 OK
@@ -74,6 +74,27 @@ Content-Length: 176
 
 {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTM4MDU4MTcsImlzcyI6IlNhbSBTZXBpb2wiLCJBdHRyaWJ1dGUiOiJzaGluaWdhbWkifQ.CdEL0FqZxOHAit5C6zfpcX2HuhLESDpwcKQSzlowm2s"}
 ```
+
+After obtaining the token, we can send it to a special endpoint that will give us the user's data as a response.
+
+```
+curl -i -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTM4MDU4MTcsImlzcyI6IlNhbSBTZXBpb2wiLCJBdHRyaWJ1dGUiOiJzaGluaWdhbWkifQ.CdEL0FqZxOHAit5C6zfpcX2HuhLESDpwcKQSzlowm2s" http://<host:port>/a
+pi/v1/private/users/user
+```
+
+#### Response
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Sun, 29 May 2022 17:44:38 GMT
+Content-Length: 201
+
+{"id":"02a542e5-fbd8-46ae-b0dd-7043bb226c9f","username":"shinigami","password":"","ID":0,"CreatedAt":"2022-05-05T07:25:37.560142-05:00","UpdatedAt":"2022-05-05T07:25:37.560142-05:00","DeletedAt":null}
+```
+
+**Note:** The password is already hashed but even like that, we don't want to expose our password hash
+
 
 ## Running Unit Test
 

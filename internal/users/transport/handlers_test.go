@@ -19,7 +19,7 @@ func(m mockedRepo) Create(user models.User) string{
 	return mockedCreate(user)
 }
 
-func(m mockedRepo) Find(id string) models.User{
+func(m mockedRepo) Find(id string) *models.User{
 	return mockedFind(id)
 }
 

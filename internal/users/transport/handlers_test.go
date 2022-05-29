@@ -6,11 +6,12 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/Edmartt/go-authentication-api/internal/users/data"
 	"github.com/Edmartt/go-authentication-api/internal/users/models"
 )
 
 var mockedCreate func(user models.User) string
-var mockedFind func(id string) models.User
+var mockedFind func(id string) *models.User
 
 type mockedRepo struct{}
 
@@ -18,7 +19,7 @@ func(m mockedRepo) Create(user models.User) string{
 	return mockedCreate(user)
 }
 
-func(m mockedRepo) Find(id string) models.User{
+func(m mockedRepo) Find(id string) *models.User{
 	return mockedFind(id)
 }
 
@@ -26,9 +27,7 @@ func TestSignup(t *testing.T) {
 
 	h := Handlers{}
 
-
-	h.userRepo = mockedRepo{}
-
+	data.RepoAccessInterface = mockedRepo{}
 
 	Newuser := models.User{
 		Id: "1",
@@ -76,12 +75,13 @@ func TestLogin(t *testing.T){
 		Username: "edmartt",
 	}
 
-	mockedFind = func(id string) models.User {
-		return dbUser
+	mockedFind = func(id string) *models.User {
+		return &dbUser
 	}
 
 	h := Handlers{}
-	h.userRepo = mockedRepo{}
+	data.RepoAccessInterface = mockedRepo{}
+
 	body := strings.NewReader(`{"username":"edmartt", "password":"12345678"}`)
 
 	req, err := http.NewRequest("POST", "api/v1/public/login", body)

@@ -27,9 +27,7 @@ func TestSignup(t *testing.T) {
 
 	h := Handlers{}
 
-
-	h.userRepo = mockedRepo{}
-
+	data.RepoAccessInterface = mockedRepo{}
 
 	Newuser := models.User{
 		Id: "1",

@@ -17,20 +17,21 @@ import (
 	"github.com/Edmartt/go-password-hasher/hasher"
 )
 
-
-
 //Handler struct gives access to user data access layer
 type Handlers struct {
-	userRepo data.IUserRepository
 	user models.User
 	logResponse LoginResponse
 	sigResponse SignupResponse
 	wrapper jwt.JWTWrapper
+}
 
+func init(){
+	data.RepoAccessInterface = data.UserRepository{}
 }
 
 //Login endpoint
 func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
+
 	reqBody, requestError := io.ReadAll(request.Body)
 
 	if requestError != nil{

@@ -1,9 +1,9 @@
 package data
 
 import (
+	"log"
 	"github.com/Edmartt/go-authentication-api/internal/database"
 	"github.com/Edmartt/go-authentication-api/internal/users/models"
-	"log"
 )
 
 type UserRepository struct{
@@ -12,9 +12,11 @@ type UserRepository struct{
 }
 
 
-func NewRepository(){
-	db := UserRepository{} 
-	db.DB = database.SQLite{}
+func newRepository() database.IConnection{
+	db := UserRepository{
+		DB: database.SQLite{},
+	}
+	return db.DB
 }
 
 

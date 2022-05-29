@@ -52,8 +52,10 @@ This is my response:
 ```
 HTTP/1.1 201 Created
 Content-Type: application/json
-Date: Thu, 05 May 2022 11:33:46 GMT
-Content-Length: 0
+Date: Sun, 29 May 2022 06:24:41 GMT
+Content-Length: 26
+
+{"status":"User Created"}
 ```
 
 Once the user is created you can sign in:
@@ -67,8 +69,21 @@ This is my response:
 ```
 HTTP/1.1 200 OK
 Content-Type: application/json
-Date: Thu, 05 May 2022 11:36:33 GMT
-Content-Length: 140
+Date: Sun, 29 May 2022 06:25:17 GMT
+Content-Length: 176
 
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTE3NTA4OTMsIkF0dHJpYnV0ZSI6InNoaW5pZ2FtaSJ9.njMWOvu6PBusDZt9k9lyfIRGRBvCo61Mm_jg6xhFPL0"
+{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTM4MDU4MTcsImlzcyI6IlNhbSBTZXBpb2wiLCJBdHRyaWJ1dGUiOiJzaGluaWdhbWkifQ.CdEL0FqZxOHAit5C6zfpcX2HuhLESDpwcKQSzlowm2s"}
+```
+
+## Running Unit Test
+
+```
+go test -v -coverprofile=coverage.out ./... ./...
+```
+
+
+## Showing Coverage in Browser
+
+```
+go tool cover -html=coverage.out
 ```

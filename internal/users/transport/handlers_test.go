@@ -6,11 +6,12 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/Edmartt/go-authentication-api/internal/users/data"
 	"github.com/Edmartt/go-authentication-api/internal/users/models"
 )
 
 var mockedCreate func(user models.User) string
-var mockedFind func(id string) models.User
+var mockedFind func(id string) *models.User
 
 type mockedRepo struct{}
 

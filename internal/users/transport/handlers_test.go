@@ -75,8 +75,8 @@ func TestLogin(t *testing.T){
 		Username: "edmartt",
 	}
 
-	mockedFind = func(id string) models.User {
-		return dbUser
+	mockedFind = func(id string) *models.User {
+		return &dbUser
 	}
 
 	h := Handlers{}

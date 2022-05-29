@@ -80,7 +80,8 @@ func TestLogin(t *testing.T){
 	}
 
 	h := Handlers{}
-	h.userRepo = mockedRepo{}
+	data.RepoAccessInterface = mockedRepo{}
+
 	body := strings.NewReader(`{"username":"edmartt", "password":"12345678"}`)
 
 	req, err := http.NewRequest("POST", "api/v1/public/login", body)

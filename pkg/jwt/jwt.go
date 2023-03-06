@@ -2,42 +2,45 @@ package jwt
 
 import (
 	"errors"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 )
 
-type Claims struct{
+type Claims struct {
 	jwt.StandardClaims
 	Attribute string
 }
 
-type JWTWrapper struct{
+type JWTWrapper struct {
 	SecretKey string
 }
 
-func (wrap *JWTWrapper)GenerateJWT(attribute string, quantity time.Duration) (tokenString string, err error){
+func (wrap *JWTWrapper) GenerateJWT(attribute string, quantity time.Duration) (tokenString string, err error) {
 	expirationTime := time.Now().Add(quantity * time.Minute)
 
 	claims := &Claims{
 		Attribute: attribute,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
-			Issuer: "Sam Sepiol",
+			Issuer:    "Sam Sepiol",
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
+	wrap.SecretKey = os.Getenv("SECRET_KEY")
 	secretKeyBytes := []byte(wrap.SecretKey)
 	tokenString, tokenError := token.SignedString(secretKeyBytes)
-	if tokenError != nil{
+	if tokenError != nil {
 		return
 	}
 
-	return 
+	return
 }
 
-func (wrap *JWTWrapper) ValidateToken(signedToken string) (claims *Claims, jwtError error){
+func (wrap *JWTWrapper) ValidateToken(signedToken string) (claims *Claims, jwtError error) {
+	wrap.SecretKey = os.Getenv("SECRET_KEY")
 	token, err := jwt.ParseWithClaims(
 		signedToken,
 		&Claims{},
@@ -46,17 +49,17 @@ func (wrap *JWTWrapper) ValidateToken(signedToken string) (claims *Claims, jwtEr
 		},
 	)
 
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	claims, ok := token.Claims.(*Claims)
 
-	if !ok{
+	if !ok {
 		err = errors.New("couln't parse with claims")
 	}
 
-	if claims.ExpiresAt < time.Now().Local().Unix(){
+	if claims.ExpiresAt < time.Now().Local().Unix() {
 		err = errors.New("JWT expired")
 		return
 	}

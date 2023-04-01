@@ -24,7 +24,7 @@ func (wrap *JWTWrapper) GenerateJWT(attribute string, quantity time.Duration) (t
 		Attribute: attribute,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
-			Issuer:    "Sam Sepiol",
+			Issuer:    "Edmartt",
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

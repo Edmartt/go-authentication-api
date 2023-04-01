@@ -19,22 +19,22 @@ import (
 
 //Handler struct gives access to user data access layer
 type Handlers struct {
-	user models.User
+	user        *models.User
 	logResponse LoginResponse
 	sigResponse SignupResponse
-	wrapper jwt.JWTWrapper
+	wrapper     jwt.JWTWrapper
 }
 
-func init(){
+func init() {
 	data.RepoAccessInterface = data.UserRepository{}
 }
 
 //Login endpoint
-func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
+func (h *Handlers) Login(w http.ResponseWriter, request *http.Request) {
 
 	reqBody, requestError := io.ReadAll(request.Body)
 
-	if requestError != nil{
+	if requestError != nil {
 		log.Println(requestError.Error())
 	}
 
@@ -42,13 +42,12 @@ func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
 
 	searchedUser := data.RepoAccessInterface.Find(h.user.Username)
 
-
-	if searchedUser.Username == h.user.Username{
-		if hasher.CheckHash(searchedUser.Password, h.user.Password){
+	if searchedUser.Username == h.user.Username {
+		if hasher.CheckHash(searchedUser.Password, h.user.Password) {
 
 			newToken, err := h.wrapper.GenerateJWT(h.user.Username, 5)
 
-			if err != nil{
+			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
@@ -67,10 +66,9 @@ func(h *Handlers) Login(w http.ResponseWriter, request *http.Request){
 	w.WriteHeader(http.StatusUnauthorized)
 	json.NewEncoder(w).Encode("Username or Password Wrong")
 
-	return
 }
 
-func (h *Handlers)Signup(w http.ResponseWriter, request *http.Request) {
+func (h *Handlers) Signup(w http.ResponseWriter, request *http.Request) {
 
 	h.user.Id = uuid.NewString()
 	requestError := json.NewDecoder(request.Body).Decode(&h.user)
@@ -83,15 +81,13 @@ func (h *Handlers)Signup(w http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-
 	data.RepoAccessInterface.Create(h.user)
 	w.WriteHeader(http.StatusCreated)
 	h.sigResponse.Status = "User Created"
 	json.NewEncoder(w).Encode(h.sigResponse)
-	return
 }
 
-func (h *Handlers)GetUserData(w http.ResponseWriter, request *http.Request){
+func (h *Handlers) GetUserData(w http.ResponseWriter, request *http.Request) {
 
 	uName := request.Context().Value("username") // value from mux context took from ValidateToken middleware
 
@@ -101,9 +97,8 @@ func (h *Handlers)GetUserData(w http.ResponseWriter, request *http.Request){
 	h.user.Username = data.Username
 	h.user.Password = data.Password
 	h.user.CreatedAt = data.CreatedAt
-	
+
 	data.Password = ""
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(&data)
-	return
 }
